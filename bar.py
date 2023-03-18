@@ -1,4 +1,4 @@
-
+# test
 import time
 import pytz
 import ccxt
@@ -11,7 +11,8 @@ import re
 import dateutil.tz
 import datetime
 import pytz
-# import bybit
+# import bybit  # test
+
 pd.set_option('display.max_rows', None)  # fix *** to show all rows
 
 # from configs import API_KEY, ACCOUNT_ID, HEADERS, INSTRUMENT, GRANULARITY, FAST, SLOW, BUY, SELL
@@ -54,11 +55,19 @@ class Data:
     def get_bar(self, data):
         self.timeframe_check(data)
         arguments = self.symbol, self.timeframe, self.start_time
+        print(data)
         exchanges = {'bybit': Bybit,
                      'binance': Binance}.get(data)
+        if exchanges is None:
+            # handle invalid data parameter
+            pass
+        print(exchanges)
         exchange = exchanges(*arguments)
-        bars = {'binance': exchange.bybit_data(), 'bybit': exchange.bybit_data(),
-                'coinex': self.coinex_data}.get(data)
+        print(exchange)
+        bars = exchange.bybit_data() if data == 'bybit' else exchange.binance_data(
+        ) if data == 'binance' else self.coinex_data() if data == 'coinex' else None
+
+        print(bars)
 
         print(f'Fetching {self.symbol} new bar for {self.start_time}')
 
@@ -91,8 +100,8 @@ class Data:
                 arguments = self.symbol, self.timeframe, self.start_time
                 exchange = exchanges(*arguments)
 
-                bar2 = {'binance': exchange.bybit_data(), 'bybit': exchange.bybit_data(),
-                        'coinex': self.coinex_data}.get(data)
+                bar2 = exchange.bybit_data() if data == 'bybit' else exchange.binance_data(
+                ) if data == 'binance' else None
                 print('vvvv')
                 bars = pd.concat([bars, bar2]).reset_index(drop=True)
                 last_row_mask = bars.index == (len(bars) - 1)
@@ -116,44 +125,6 @@ class Data:
 
         return data
 
-    def coinex(self):
-        return self.get_bar('coinex')
-
-    def coinex_data(self):
-        # TODO defrent timeframe method and timestamp    time frame 1mi
-        url = f'https://api.coinex.com/perpetual/v1/market/kline?market={self.symbol}&start_time={self.start_time}&type={self.timeframe}'
-
-        response = requests.get(url)
-        data = response.json()['data']
-        data = [i[:-1] for i in data]
-        df = pd.DataFrame(data)
-        df.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
-
-        return df
-
-    def oanda(self, API_KEY):
-        API_KEY = API_KEY  # '393dc3deec6d2a0f20e328ee40e86595-b3810e7fcb6fafbab913519db3f51b2b'
-        HEADERS = {
-            'Authorization': 'Bearer ' + API_KEY
-        }
-
-        INSTRUMENT = 'EUR_USD'
-        GRANULARITY = 'M1'
-
-        url = f"https://api-fxpractice.oanda.com/v3/instruments/{self.symbol}/candles?count=5&price=M&granularity={self.timeframe}"
-
-        response = requests.get(url, headers=HEADERS).json()['candles']
-        data = []
-        for i in response:
-            dt = datetime.strptime(i['time'][:-4], '%Y-%m-%dT%H:%M:%S.%f')
-            time = dt.strftime('%Y-%m-%d %H:%M')
-            data.append({'time': time, 'o': i['mid']['o'], 'h': i['mid']['h'], 'l': i['mid']
-                        ['l'], 'c': i['mid']['c'], 'volume': i['volume']})
-        df = pd.DataFrame(data)
-        df.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
-
-        return df
-
     def coinex_perpetual_symbol(self):
         url = 'https://api.coinex.com/perpetual/v1/market/list'
         response = requests.get(url)
@@ -167,6 +138,43 @@ class Data:
         return data
 
 # {Bybit exchange
+
+
+class Oanda():
+    def __init__(self,  symbol, time_frame, start_time):
+        super().__init__(symbol, time_frame, start_time)
+
+    def oanda_timeframe(self):
+        timeframe = self.timeframe
+        bybit_timeframe = {'1m': 'M1', '3m': 'M3', '5m': 'M5', '15m': 'M15', '30': 'M30', '1h': 'H1',
+                           '2h': 'H2', '4h': 'H4', '6h': 'H6', '8h': 'H8', '12h': 'H12', '1d': 'D', '1w': 'W'}
+        return bybit_timeframe.get(timeframe)
+
+    def oanda(self, API_KEY):
+        API_KEY = API_KEY  # '393dc3deec6d2a0f20e328ee40e86595-b3810e7fcb6fafbab913519db3f51b2b'
+        HEADERS = {
+            'Authorization': 'Bearer ' + API_KEY
+        }
+
+        INSTRUMENT = 'EUR_USD'
+        GRANULARITY = 'M1'
+        print(int(self.date_time_to_timestamp()/1000))
+
+        url = f"https://api-fxpractice.oanda.com/v3/instruments/{INSTRUMENT}/candles?count=5&price=M&granularity=M1"
+
+        response = requests.get(url, headers=HEADERS).json()['candles']
+        print(response)
+        data = []
+        for i in response:
+            dtt = datetime.datetime.strptime(
+                i['time'][:-4], '%Y-%m-%dT%H:%M:%S.%f')
+            time = dtt.strftime('%Y-%m-%d %H:%M')
+            data.append({'time': time, 'o': i['mid']['o'], 'h': i['mid']['h'], 'l': i['mid']
+                        ['l'], 'c': i['mid']['c'], 'volume': i['volume']})
+        df = pd.DataFrame(data)
+        df.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
+
+        return df
 
 
 class Binance(Data):
@@ -224,9 +232,10 @@ class Bybit(Data):
 
 # 1675288344
 # '2023-03-14 08:00'
-data = Data('BTCUSDT', '2h', '2023-01-15 12:00')
+data = Data('BTCUSD', '2h', '2023-01-15 11:00')
 # 1670601600000
 # 1672574400000
+# 1636602204
 print('bars')
 bars = data.bybit()
 
