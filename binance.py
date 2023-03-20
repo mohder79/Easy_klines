@@ -1,22 +1,19 @@
 import requests
-import pandas as pd
+from datetime_to_timestamp import date_time_to_timestamp
 
 
-class bybit():
-    def __init__(self, exchange_name, symbol, time_frame, start_time):
-        self.exchange_name = exchange_name
+class Binance():
+
+    def __init__(self,  symbol, time_frame, start_time, retry_count: int = 5):
+
         self.symbol = symbol
         self.timeframe = time_frame
         self.start_time = start_time
+        self.retry_count = retry_count
 
-    def bybit(self):
-
-        url = f'https://api.bybit.com/v5/market/kline?category=inverse&symbol=BTCUSD&interval=60&start=1670601600000'
+    def binance_data(self):
+        url = f'https://api.binance.com/api/v3/klines?symbol={self.symbol}&interval={self.timeframe}&startTime={date_time_to_timestamp(self.start_time)}'
 
         response = requests.get(url)
-        data = response.json()['result']['list']
-        data = [i[:-1] for i in data]
-        df = pd.DataFrame(data)
-        df.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
 
-        return df
+        return response

@@ -1,29 +1,28 @@
 import requests
 import pandas as pd
-from bar import Data
+from datetime_to_timestamp import date_time_to_timestamp
 
 
-class Bybit_ex():
-    # def __init__(self, exchange_name, symbol, time_frame, start_time):
-    #     self.exchange_name = exchange_name
-    #     self.symbol = symbol
-    #     self.timeframe = time_frame
-    #     self.start_time = start_time
+class Bybit():
 
-    def data(self):
-        # TODO timeframe 1 , 3, 5 ,60
+    def __init__(self,  symbol, time_frame, start_time, retry_count: int = 5):
 
-        url = f'https://api.bybit.com/v5/market/kline?category=inverse&symbol={self.symbol}&interval=120&start={self.date_time_to_timestamp()}'
+        self.symbol = symbol
+        self.timeframe = time_frame
+        self.start_time = start_time
+        self.retry_count = retry_count
+
+    # "The Bybit exchange has a different timeframe input compared to the input of my main program."
+    def bybit_timeframe(self):
+        timeframe = self.timeframe
+        bybit_timeframe = {'1m': 1, '3m': 3, '5m': 5, '15m': 15, '30': 30, '1h': 60,
+                           '2h': 120, '4h': 240, '6h': 360, '8h': 480, '12h': 720, '1d': 'D', '1w': 'W'}
+        return bybit_timeframe.get(timeframe)
+
+    def bybit_data(self):
+
+        url = f'https://api.bybit.com/v5/market/kline?category=inverse&symbol={self.symbol}&interval={self.bybit_timeframe()}&start={date_time_to_timestamp(self.start_time)}'
 
         response = requests.get(url)
-        data = response.json()['result']['list']
-        data = [i[:-1] for i in data]
-        df = pd.DataFrame(data)
-        df.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
-        df['Time'] = pd.to_datetime(df['Time'], unit='ms', utc=True)
-        # local_tz = pytz.timezone('Asia/Tehran')
-        # df['Time'] = df['Time'].dt.tz_convert(local_tz)
-        df['Time'] = df['Time'].dt.strftime('%Y-%m-%d %H:%M')
-        df = df.iloc[::-1]
 
-        return df
+        return response
