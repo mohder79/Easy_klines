@@ -87,7 +87,7 @@ class Data:
         return times.get(time)
 
     def response_to_json(self, exchange_name: str, response):
-        minus = {'bybit': -1, 'binance': -6, 'oanda': -4}.get(exchange_name)
+        minus = {'bybit': -1, 'binance': -6}.get(exchange_name)
         if exchange_name == 'bybit':
             data = response.json()['result']['list']
         if exchange_name == 'binance':
@@ -99,16 +99,18 @@ class Data:
                 dtt = datetime.datetime.strptime(
                     i['time'][:-4], '%Y-%m-%dT%H:%M:%S.%f')
                 time = dtt.strftime('%Y-%m-%d %H:%M')
-                data.append({'time': time, 'o': i['mid']['o'], 'h': i['mid']['h'],
-                            'l': i['mid']['l'], 'c': i['mid']['c'], 'volume': i['volume']})
+                data.append([time, i['mid']['o'],
+                            i['mid']['h'], i['mid']['l'], i['mid']['c'], i['volume']])
+            df = pd.DataFrame(
+                data, columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
-        if exchange_name == 'bybit' or 'binance':
+        if exchange_name == 'bybit':
 
             data = [i[:minus] for i in data]
-        df = pd.DataFrame(
-            data, columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        df['Time'] = pd.to_datetime(df['Time'], unit='ms', utc=True)
-        df['Time'] = df['Time'].dt.strftime('%Y-%m-%d %H:%M')
+            df = pd.DataFrame(
+                data, columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
+            df['Time'] = pd.to_datetime(df['Time'], unit='ms', utc=True)
+            df['Time'] = df['Time'].dt.strftime('%Y-%m-%d %H:%M')
         if exchange_name == 'bybit':
             df = df.iloc[::-1]
             df = df.reset_index(drop=True)
@@ -160,6 +162,7 @@ class Data:
 
                 response_data = exchange.bybit_data() if exchange_name == 'bybit' else exchange.binance_data(
                 ) if exchange_name == 'binance' else exchange.oanda_data() if exchange_name == 'oanda' else None
+                print(response_data)
                 if str(response_data) == '(<Response [200]>, 0)' or '<Response [200]>':
                     # do something with the response
                     break  # if successful, exit the loop
@@ -178,7 +181,7 @@ class Data:
         self.__errors__(exchange_name, response_data)
         bars = self.response_to_json(
             exchange_name, response_data)
-
+        print(bars)
         # print(f'Fetching {self.symbol} new bar for {self.start_time}')
 
         while True:
@@ -193,7 +196,8 @@ class Data:
             time = self.timeframe_converter()
             time_format = "%Y-%m-%d %H:%M"
             time1 = datetime.datetime.strptime(time_now, time_format)
-            time2 = datetime.datetime.strptime(last_time, time_format)
+            time2 = datetime.datetime.strptime(
+                str(last_time), str(time_format))
 
             difference_in_minutes = (time1 - time2).total_seconds() // 60
             if difference_in_minutes <= time:
@@ -284,8 +288,21 @@ class Oanda(Data):
         }
 
         url = f"https://api-fxpractice.oanda.com/v3/instruments/{self.symbol}/candles?price=M&granularity={self.oanda_timeframe()}&from={int(self.date_time_to_timestamp()/1000)}"
-
-        response = requests.get(url, headers=HEADERS)
+        response = requests.get(url, headers=HEADERS)  # .json()['candles']
+        # print(requests.get(url, headers=HEADERS))
+        # # print(requests.get(url, headers=HEADERS).json())
+        # data = []
+        # for i in response:
+        #     dtt = datetime.datetime.strptime(
+        #         i['time'][:-4], '%Y-%m-%dT%H:%M:%S.%f')
+        #     time = dtt.strftime('%Y-%m-%d %H:%M')
+        #     data.append([time, i['mid']['o'],
+        #                 i['mid']['h'], i['mid']['l'], i['mid']['c'], i['volume']])
+        # df = pd.DataFrame(data)
+        # df.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
+        # df['Time'] = pd.to_datetime(
+        #     df['Time'])
+        # df['Time'] = df['Time'].dt.strftime('%Y-%m-%d %H:%M')
 
         return response
 
