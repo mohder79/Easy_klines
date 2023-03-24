@@ -1,16 +1,8 @@
-# test
-import time
-import pytz
-import ccxt
+
 from datetime import timedelta
 import pandas as pd
-import re
 import requests
-import json
-import re
-import dateutil.tz
 import datetime
-import pytz
 import sys
 from bybit import Bybit
 from binance import Binance
