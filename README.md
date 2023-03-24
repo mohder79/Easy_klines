@@ -24,9 +24,7 @@ pip install easy-kline
 First, import the Easy_klines library:
 
 ```
-
 import easy_kline
-
 ```
 
 
@@ -39,35 +37,27 @@ valid timeframes ['1m', '3m', '5m','15m', '30m', '1h', '2h', '4h', '6h', '8h', '
 
 start_time: the start time for the data in the format 'YYYY-MM-DD HH:MM'. The output of the library is from start_time until the current time.
 
+
+
 ‍‍‍```
 # binance
 kline = easy_kline.exchange('BTCUSDT', '1h', '2023-01-20 12:00')
 BTCUSDT = kline.binance()
 print(BTCUSDT)
 
-```
-
-
-
-```
 
 # bybit
-kline = easy_kline.exchange('BTCUSDT', '2h', '2022-06-25 11:00')
-BTCUSDT = kline.bybit()
+kline = easy_kline.exchange('ETHUSDT', '2h', '2022-06-25 11:00')
+ETHUSDT = kline.bybit()
 print(BTCUSDT)
 
-```
-
-
-```
 
 # oanda
-kline = easy_kline.exchange('BTC_USD', '5m', '2023-01-13 9:00')
-BTCUSDT = kline.oanda()
+kline = easy_kline.exchange('EUR_USD', '5m', '2023-01-13 9:00')
+BTC_USD = kline.oanda()
 print(BTCUSDT)
-
 ```
-
+```
 
 # License
 
