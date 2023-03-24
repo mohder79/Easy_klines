@@ -1,11 +1,12 @@
+
 import pandas as pd
-from get_bar import Get_Bar
+from .get_bar import Get_Bar
 
 
 pd.set_option('display.max_rows', None)  # fix *** to show all rows
 
 
-class Easy_klines:
+class exchange:
     def __init__(self,  symbol, time_frame, start_time, retry_count: int = 5):
 
         self.symbol = symbol
@@ -17,14 +18,14 @@ class Easy_klines:
         arguments = self.symbol, self.timeframe, self.start_time
         bar = Get_Bar(*arguments)
 
-        data = bar.get_bar('binance')
+        data = bar.get_bars('binance')
 
         return data
 
     def bybit(self):
         arguments = self.symbol, self.timeframe, self.start_time
         bar = Get_Bar(*arguments)
-        data = bar.get_bar('bybit')
+        data = bar.get_bars('bybit')
 
         return data
 
@@ -32,14 +33,14 @@ class Easy_klines:
         arguments = self.symbol, self.timeframe, self.start_time
         bar = Get_Bar(*arguments)
 
-        data = bar.get_bar('oanda')
+        data = bar.get_bars('oanda')
 
         return data
 
 
-data = Easy_klines('BTCUSDT', '1h', '2023-01-20 11:00')
+# data = Easy_klines('BTCUSDT', '1h', '2023-01-20 11:00')
 
-bars = data.bybit()
+# bars = data.bybit()
 
 
-print(bars)
+# print(bars)

@@ -1,3 +1,7 @@
+'''
+This function takes a string argument time in the format of 'YYYY-MM-DD HH:MM' and converts it to a timestamp
+'''
+
 import datetime
 import pytz
 

@@ -1,6 +1,13 @@
+
+'''
+This class retrieve data from the bybit API. The class constructor takes four arguments: symbol, time_frame, start_time, and retry_count
+The class has two methods: "bybit_timeframe" and "bybit_data".
+The "bybit_timeframe" method maps the time frame string to the corresponding string used by the bybit API. 
+The "bybit_data" method sends a request to the bybit API using the provided arguments to retrieve candlestick data for the specified symbol and time frame.
+'''
 import requests
 import pandas as pd
-from datetime_to_timestamp import date_time_to_timestamp
+from .datetime_to_timestamp import date_time_to_timestamp
 
 
 class Bybit():

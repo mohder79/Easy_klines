@@ -1,4 +1,8 @@
-
+"""
+This function converts responses from different exchanges (Bybit, Binance, and Oanda) to pandas dataframes in a unified format.
+function takes two arguments: exchange_name, a string indicating the name of the exchange,and 
+response, the response object returned by the exchange's API.
+"""
 import pandas as pd
 import datetime
 

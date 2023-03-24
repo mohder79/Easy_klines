@@ -1,6 +1,13 @@
+'''
+This class retrieve data from the Oanda API. The class constructor takes four arguments: symbol, time_frame, start_time, and retry_count
+The class has two methods: "oanda_timeframe" and "oanda_data".
+The "oanda_timeframe" method maps the time frame string to the corresponding string used by the Oanda API. 
+The "oanda_data" method sends a request to the Oanda API using the provided arguments to retrieve candlestick data for the specified symbol and time frame.
+
+'''
 
 import requests
-from datetime_to_timestamp import date_time_to_timestamp
+from .datetime_to_timestamp import date_time_to_timestamp
 
 
 class Oanda():

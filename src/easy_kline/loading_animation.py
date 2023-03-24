@@ -1,3 +1,6 @@
+'''
+This function use for made liding animation 
+'''
 import time
 import sys
 

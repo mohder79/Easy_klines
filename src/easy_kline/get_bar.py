@@ -1,18 +1,24 @@
+'''
+After successfully obtaining the response data, convert data to a Pandas dataframe and enters a loop that checks if the last retrieved bar is recent.
+If it is,breaks out of the loop and returns the bars.
+If the last retrieved bar is not recent enough, the method computes the time of the next bar and retrieves it from the exchange using the same process as before.
+The retrieved bars are concatenated with the existing dataframe until the last bar retrieved is recent enough.
+'''
+
 
 from datetime import timedelta
 import pandas as pd
 import requests
 import datetime
 import sys
-from bybit import Bybit
-from binance import Binance
-from oanda import Oanda
-from datetime_to_timestamp import date_time_to_timestamp
-from timeframe_check import timeframe_check
-from errors import *
-from timeframe_converter import *
-from response_to_json import *
-from loading_animation import *
+from .bybit import Bybit
+from .binance import Binance
+from .oanda import Oanda
+from .timeframe_check import timeframe_check
+from .errors import errors
+from .timeframe_converter import timeframe_converter
+from .response_to_json import response_to_json
+from .loading_animation import loading_animation
 
 
 class Get_Bar:
@@ -23,7 +29,7 @@ class Get_Bar:
         self.start_time = start_time
         self.retry_count = retry_count
 
-    def get_bar(self, exchange_name):
+    def get_bars(self, exchange_name):
         timeframe_check(self.timeframe)
         arguments = self.symbol, self.timeframe, self.start_time
         # print(exchange_name)

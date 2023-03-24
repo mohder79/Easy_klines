@@ -1,3 +1,9 @@
+"""
+This function checks timeframe argument is a valid timeframe or not.
+A valid timeframe must be one of the in list
+If the timeframe argument is not in the list of valid timeframes, function will raise an error
+"""
+
 import sys
 
 

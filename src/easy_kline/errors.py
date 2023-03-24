@@ -1,3 +1,7 @@
+'''
+rise error
+'''
+
 import sys
 
 
