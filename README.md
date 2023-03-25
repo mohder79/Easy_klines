@@ -10,7 +10,7 @@ Easy_klines allows you to easily retrieve historical candlestick data for a spec
 You can install Easy_klines using pip:
 
 
-```
+```python
 
 pip install easy-kline
 
@@ -23,8 +23,10 @@ pip install easy-kline
 
 First, import the Easy_klines library:
 
-```
+```python
+
 import easy_kline
+
 ```
 
 
@@ -77,7 +79,9 @@ This project is distributed under the MIT License. See the LICENSE.txt file for 
 
 You can contact the author, mohder, at mohder1379@gmail.com.
 
+
 #Links 
+
 
 GitHub Repository: https://github.com/mohder79/Easy_klines
 PyPI Page: https://pypi.org/project/easy-kline/
