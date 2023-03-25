@@ -1,9 +1,3 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 # About the Project
 Easy_klines is a Python library that provides a simple and efficient solution for retrieving historical candlestick data from exchange APIs.
@@ -16,7 +10,7 @@ Easy_klines allows you to easily retrieve historical candlestick data for a spec
 You can install Easy_klines using pip:
 
 
-```
+```python
 
 pip install easy-kline
 
@@ -29,7 +23,7 @@ pip install easy-kline
 
 First, import the Easy_klines library:
 
-```
+```python
 
 import easy_kline
 
@@ -45,35 +39,34 @@ valid timeframes ['1m', '3m', '5m','15m', '30m', '1h', '2h', '4h', '6h', '8h', '
 
 start_time: the start time for the data in the format 'YYYY-MM-DD HH:MM'. The output of the library is from start_time until the current time.
 
-‍‍‍```
+
+
+
+
+
+
+```python
 # binance
+
 kline = easy_kline.exchange('BTCUSDT', '1h', '2023-01-20 12:00')
 BTCUSDT = kline.binance()
 print(BTCUSDT)
 
-```
-
-
-
-```
 
 # bybit
-kline = easy_kline.exchange('BTCUSDT', '2h', '2022-06-25 11:00')
-BTCUSDT = kline.bybit()
+ 
+kline = easy_kline.exchange('ETHUSDT', '2h', '2022-06-25 11:00')
+ETHUSDT = kline.bybit()
 print(BTCUSDT)
 
-```
-
-
-```
 
 # oanda
-kline = easy_kline.exchange('BTC_USD', '5m', '2023-01-13 9:00')
-BTCUSDT = kline.oanda()
+
+kline = easy_kline.exchange('EUR_USD', '5m', '2023-01-13 9:00')
+BTC_USD = kline.oanda()
 print(BTCUSDT)
 
 ```
-
 
 # License
 
@@ -86,7 +79,9 @@ This project is distributed under the MIT License. See the LICENSE.txt file for 
 
 You can contact the author, mohder, at mohder1379@gmail.com.
 
+
 #Links 
+
 
 GitHub Repository: https://github.com/mohder79/Easy_klines
 PyPI Page: https://pypi.org/project/easy-kline/
