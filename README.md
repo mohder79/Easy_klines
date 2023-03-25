@@ -1,9 +1,11 @@
 <p align="center">
+
   ![build](https://img.shields.io/badge/build%20-passing-green)
   ![Supported Exchanges](https://img.shields.io/badge/exchanges-3-blue.svg)
   ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
   [![PyPI](https://img.shields.io/badge/pypi-0.0.2-orange)](https://pypi.org/project/easy-kline/)
   [![web](https://img.shields.io/badge/mohder-website-brightgreen)](https://mohder.com) 
+  
 </p> 
 
 # About the Project
