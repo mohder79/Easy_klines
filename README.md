@@ -40,8 +40,8 @@ start_time: the start time for the data in the format 'YYYY-MM-DD HH:MM'. The ou
 
 
 ‍‍‍```
- [//]: # binance
- 
+# binance
+ ```
  
 kline = easy_kline.exchange('BTCUSDT', '1h', '2023-01-20 12:00')
 BTCUSDT = kline.binance()
