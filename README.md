@@ -1,3 +1,10 @@
+<div style="text-align: center">
+  
+  ![Supported Exchanges](https://img.shields.io/badge/exchanges-3-blue.svg)
+  ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
+  [![PyPI](https://img.shields.io/pypi/v/ccxt.svg)](https://pypi.org/project/easy-kline/)
+  
+</div>
 
 # About the Project
 Easy_klines is a Python library that provides a simple and efficient solution for retrieving historical candlestick data from exchange APIs.
@@ -84,4 +91,5 @@ You can contact the author, mohder, at mohder1379@gmail.com.
 
 
 GitHub Repository: https://github.com/mohder79/Easy_klines
+
 PyPI Page: https://pypi.org/project/easy-kline/
