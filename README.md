@@ -46,7 +46,7 @@ BTCUSDT = kline.binance()
 print(BTCUSDT)
 
 
-# bybit
+ # bybit
 kline = easy_kline.exchange('ETHUSDT', '2h', '2022-06-25 11:00')
 ETHUSDT = kline.bybit()
 print(BTCUSDT)
