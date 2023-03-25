@@ -48,19 +48,21 @@ kline = easy_kline.exchange('BTCUSDT', '1h', '2023-01-20 12:00')
 BTCUSDT = kline.binance()
 print(BTCUSDT)
 
+```
 
+```
  # bybit
 kline = easy_kline.exchange('ETHUSDT', '2h', '2022-06-25 11:00')
 ETHUSDT = kline.bybit()
 print(BTCUSDT)
+```
 
-
+```
 # oanda
 kline = easy_kline.exchange('EUR_USD', '5m', '2023-01-13 9:00')
 BTC_USD = kline.oanda()
 print(BTCUSDT)
 
-```
 ```
 
 # License
