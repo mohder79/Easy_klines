@@ -1,12 +1,15 @@
-import easy_kline
-
-kline = easy_kline.exchange('BTCUSDT', '1h', '2023-01-20 12:00')
-BTCUSDT = kline.binance()
-print(BTCUSDT)
+import easy_klinee
+import pandas as pd
 
 
 def SMA(data: str, length: int, column: str):
     return data[column].rolling(window=length).mean()
 
+kline = easy_klinee.bybit('BTCUSDT', '1m', '2023-04-6 14:01',auto_print = False )
+while True :
+    kline = easy_klinee.stream()    
+    
+    kline['sma'] = SMA(kline , 14 , 'Close')
+    print(kline)
 
-BTCUSDT['sma'] = SMA(BTCUSDT, 14, 'Close')
+

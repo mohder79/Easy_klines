@@ -25,7 +25,7 @@ def response_to_json(exchange_name: str, response):
         df = pd.DataFrame(
             data, columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
-    if exchange_name == 'bybit' or 'binance':
+    if exchange_name in ['bybit' , 'binance']:
 
         data = [i[:minus] for i in data]
         df = pd.DataFrame(

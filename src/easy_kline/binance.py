@@ -11,16 +11,20 @@ from .datetime_to_timestamp import date_time_to_timestamp
 
 class Binance():
 
-    def __init__(self,  symbol, time_frame, start_time, retry_count: int = 5):
+    def __init__(self,  symbol, time_frame, start_time,futures=False, retry_count: int = 5):
 
         self.symbol = symbol
         self.timeframe = time_frame
         self.start_time = start_time
         self.retry_count = retry_count
+        self.futures = futures
 
     def binance_data(self):
-        url = f'https://api.binance.com/api/v3/klines?symbol={self.symbol}&interval={self.timeframe}&startTime={date_time_to_timestamp(self.start_time)}'
-
+        if not self.futures:
+            url = f'https://api.binance.com/api/v3/klines?symbol={self.symbol}&interval={self.timeframe}&startTime={date_time_to_timestamp(self.start_time)}'
+        else :
+            url = f'https://fapi.binance.com/fapi/v1/klines?symbol={self.symbol}&interval={self.timeframe}&startTime={date_time_to_timestamp(self.start_time)}'
         response = requests.get(url)
 
         return response
+

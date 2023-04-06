@@ -6,6 +6,7 @@ import sys
 
 
 def errors(exchange_name, response):
+    
     if exchange_name == 'bybit':
         response = response.json()['retCode']
     if exchange_name == 'bybit':
@@ -34,3 +35,21 @@ def errors(exchange_name, response):
                     ("\n Error Code -1003: Too many visits. Exceeded the API Rate Limit.."))
             if response == -1021:
                 sys.exit('INVALID_TIMESTAMP')
+    if exchange_name == 'oanda':
+        response = response.json()
+        if 'errorMessage' in response :
+            if response['errorMessage'] == "Invalid value specified for 'instrument'" :
+                sys.exit(
+                    ("\n Error Invalid value specified for 'instrument': Request parameter error. Invalid symbol."))
+            elif response['errorMessage'] == "Invalid value specified for 'granularity'" :
+                sys.exit(
+                    ("\n Error Invalid value specified for 'granularity': Request parameter error. Invalid timeframe."))
+            elif response['errorMessage'] == "Invalid value specified for 'from'. Time is in the future" :
+                sys.exit(
+                    ("\n Error Invalid value specified for 'start_time'.: Request parameter error. Invalid start time , Time is in the future."))
+            else :
+                sys.exit(
+                    ("\n Error Invalid value.: Request parameter error. check parameters."))
+
+                
+

@@ -13,7 +13,8 @@ def loading_animation(text, time_loading: int = 5):
     while time.time() - start_time < time_loading:  # time condition
         for char in chars:
             # Print the current character
+            space = ' ' * 15
             sys.stdout.write(
-                f'\r {text}  {char} ')
+                f'\r {text}  {char}{space}')
             time.sleep(0.1)  # Wait for a short amount of time
     time.sleep(1)  # Wait for a short amount of time

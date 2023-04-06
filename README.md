@@ -119,12 +119,148 @@ while True:
 # Note that the easy_kline.stream() function will continue to stream data until the program is stopped.
 
 ```
+### Available Symbols 
+To retrieve available symbols for spot and futures trading on Binance, you can use the ‌binance_symbol() function provided by the easy_kline library.
+
+The following code shows how to use this function to retrieve the available symbols:
+```python
+import easy_kline
+
+# Retrieving available symbols for spot trading
+spot_symbols = easy_kline.binance_symbol() 
+print("Available symbols for spot trading on Binance:", spot_symbols)
+
+# Retrieving available symbols for futures trading
+futures_symbols = easy_kline.binance_symbol(futures=True) 
+print("Available symbols for futures trading on Binance:", futures_symbols)
+
+```
+
+///////////////////////
+
+## Bybit Historical Data with Easy_kline
+
+### Spot Trading Data
+
+To retrieve historical data from Bybit spot markets, use the following code:
 
 
+```python
+import easy_kline
+
+# retrieve AAVEUSDT spot trading data with 4-hour candlestick interval from 2022-01-14 11:00
+AAVEUSDT = easy_kline.bybit('AAVEUSDT', '4h', '2023-01-20 12:00') 
+
+print(AAVEUSDT)
+
+```
+### Futures Trading Data
+To retrieve historical data from Bybit futures markets, use the following code:
 
 
+```python
+import easy_kline
+
+# retrieve BNBUSDT futures trading data with 15-minutes candlestick interval from 2023-01-20 12:00
+BNBUSDT = easy_kline.bybit('BNBUSDT', '15m', '2023-01-20 12:00', futures=True) 
+
+print(BNBUSDT)
+
+```
+### Streaming Data and Calculating SMA 
+To stream real-time data from Bybit futures markets and calculate the Simple Moving Average (SMA), use the following code:
 
 
+```python
+import easy_kline
+
+# define function to calculate SMA
+def SMA(data, length, column):
+    return data[column].rolling(window=length).mean()
+
+# retrieve ETHUSDT futures trading data with 2-hour candlestick interval from 2023-01-20 12:00
+ETHUSDT = easy_kline.bybit('ETHUSDT', '2h', '2023-01-20 12:00', futures=True)
+
+# stream real-time data and calculate SMA
+while True:
+    ETHUSDT = easy_kline.stream()
+    
+    ETHUSDT['sma'] = SMA(ETHUSDT, 14, 'Close')
+    print(ETHUSDT)
+
+# Note that the easy_kline.stream() function will continue to stream data until the program is stopped.
+
+```
+### Available Symbols 
+To retrieve available symbols for spot and futures trading on Bybit, you can use the ‌bybit_symbol() function provided by the easy_kline library.
+
+The following code shows how to use this function to retrieve the available symbols:
+```python
+import easy_kline
+
+# Retrieving available symbols for spot trading
+spot_symbols = easy_kline.‌bybit_symbol() 
+print("Available symbols for spot trading on bybit:", spot_symbols)
+
+# Retrieving available symbols for futures trading
+futures_symbols = easy_kline.‌bybit_symbol(futures=True) 
+print("Available symbols for futures trading on bybit:", futures_symbols)
+
+```
+
+## Oanda Historical Data with Easy_kline
+
+
+To retrieve historical data from Oanda , use the following code:
+
+
+```python
+import easy_kline
+
+# retrieve AUD_CAD  historical data with 4-hour candlestick interval from 2022-01-14 11:00
+AUD_CAD = easy_kline.oanda('AUD_CAD', '4h', '2023-01-20 12:00') 
+
+print(AUD_CAD)
+
+```
+
+### Streaming Data and Calculating SMA 
+To stream real-time data from Oanda futures markets and calculate the Simple Moving Average (SMA), use the following code:
+
+
+```python
+import easy_kline
+
+# define function to calculate SMA
+def SMA(data, length, column):
+    return data[column].rolling(window=length).mean()
+
+# retrieve USD_JPY historical data with 2-hour candlestick interval from 2023-01-20 12:00
+USD_JPY = easy_kline.oanda('USD_JPY', '2h', '2023-01-20 12:00')
+
+# stream real-time data and calculate SMA
+while True:
+    USD_JPY = easy_kline.stream()
+    
+    USD_JPY['sma'] = SMA(USD_JPY, 14, 'Close')
+    print(USD_JPY)
+
+# Note that the easy_kline.stream() function will continue to stream data until the program is stopped.
+
+```
+### Available Symbols 
+To retrieve available symbols on Oanda, you can use the ‌oanda_symbol() function provided by the easy_kline library.
+
+The following code shows how to use this function to retrieve the available symbols:
+```python
+import easy_kline
+
+# Retrieving available symbols 
+spot_symbols = easy_kline.‌oanda_symbol() 
+print("Available symbols on oanda:", spot_symbols)
+
+
+```
 
 # License
 
