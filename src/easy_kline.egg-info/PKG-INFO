@@ -1,9 +1,24 @@
+Metadata-Version: 2.1
+Name: easy-kline
+Version: 0.1.1
+Summary: "Easy_klines" is a Python library that provides a solution to the limitations of exchange APIs in retrieving candlestick data more efficiently and quickly.
+Home-page: https://github.com/mohder79/Easy_klines
+Author: mohder
+Author-email: mohder1379@gmail.com
+Project-URL: Bug Tracker, https://github.com/mohder79/Easy_klines
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10.5
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
 <p align="center">
 
   ![build](https://img.shields.io/badge/build%20-passing-green)
   ![Supported Exchanges](https://img.shields.io/badge/exchanges-3-blue.svg)
   ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
-  [![PyPI](https://img.shields.io/badge/pypi-0.1.1-orange)](https://pypi.org/project/easy-kline/)
+  [![PyPI](https://img.shields.io/badge/pypi-0.1.0-orange)](https://pypi.org/project/easy-kline/)
   [![web](https://img.shields.io/badge/mohder-website-brightgreen)](https://mohder.com) 
   
 </p>

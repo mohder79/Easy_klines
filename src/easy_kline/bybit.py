@@ -22,6 +22,7 @@ class Bybit():
 
         if futures:
             self.futures = 'linear'
+
         else :
             self.futures = 'spot'
 

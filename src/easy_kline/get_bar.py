@@ -85,26 +85,30 @@ class Get_Bar:
         while True:
             
 
-            last_time = bars['Time'].iloc[-1] # get last time in dataframe
-            time_now = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M') # get utc time now
-            timeframe = timeframe_converter(self.timeframe) # return timeframe to minutes
-            time_format = "%Y-%m-%d %H:%M" 
-            difference_in_minutes = (datetime.datetime.strptime(time_now, time_format) - datetime.datetime.strptime(
-                str(last_time), str(time_format))).total_seconds() // 60 # utc time now minus last time in dataframe
-            if difference_in_minutes <= timeframe:  # check if difference_in_minutes < timeframe . its meens we dont have any data and last time in data frame = now time in utc
+            last_time = bars['Time'].iloc[-1]
+            time_now = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M')
+            time = timeframe_converter(self.timeframe)
+            time_format = "%Y-%m-%d %H:%M"
+            time1 = datetime.datetime.strptime(time_now, time_format)
+            time2 = datetime.datetime.strptime(
+                str(last_time), str(time_format))
+
+            difference_in_minutes = (time1 - time2).total_seconds() // 60
+            if difference_in_minutes <= time:
                 break
-            else:  # get new data 
-                 
-                last_bar_datetime = datetime.datetime.strptime( last_time, '%Y-%m-%d %H:%M')# last time in dataframe
+            else:
+
+                last_bar_datetime = datetime.datetime.strptime(
+                    last_time, '%Y-%m-%d %H:%M')
                 new_time = (
-                    last_bar_datetime + timedelta(minutes=timeframe)).strftime('%Y-%m-%d %H:%M')   # (last time in list + timeframe ) for get new bars
+                    last_bar_datetime + timedelta(minutes=time)).strftime('%Y-%m-%d %H:%M')
                 if new_time == self.start_time:
 
                     break
 
-                self.start_time = new_time  # set new start time for get data
+                self.start_time = new_time
 
-                if exchange_name == 'bybit' or 'binance' :
+                if exchange_name  in ['bybit' , 'binance'] :
                     arguments = self.symbol, self.timeframe, self.start_time , self.futures
                 else :
                     arguments = self.symbol, self.timeframe, self.start_time 
@@ -114,7 +118,7 @@ class Get_Bar:
 
                         sys.stdout.write("\033[K")
                         loading_animation(
-                            f'Fetching a new bar of data for {self.symbol} at {self.start_time}', 2)
+                            f'Fetching {self.symbol} new bar for {self.start_time}', 2)
 
                         response_data = exchange.bybit_data() if exchange_name == 'bybit' else exchange.binance_data(
                         ) if exchange_name == 'binance' else exchange.oanda_data() if exchange_name == 'oanda' else None
@@ -122,6 +126,8 @@ class Get_Bar:
                         if str(response_data) == '(<Response [200]>, 0)' or '<Response [200]>':
                             sys.stdout.write("\033[K")
                             sys.stdout.write('\r')
+
+                            break  # if successful, exit the loop
 
                     except requests.exceptions.RequestException:
                         loading_animation(
