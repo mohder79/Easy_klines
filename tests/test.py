@@ -1,7 +1,7 @@
 import easy_klinee
 import pandas as pd
 
-
+# Hello to everybody
 def SMA(data: str, length: int, column: str):
     return data[column].rolling(window=length).mean()
 
@@ -11,5 +11,7 @@ while True :
     
     kline['sma'] = SMA(kline , 14 , 'Close')
     print(kline)
+
+print("Welcome to Bitcoin")
 
 
